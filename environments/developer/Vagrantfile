@@ -1,0 +1,51 @@
+# 
+# Vagrantfile per un singolo nodo (dev, developer) 
+# per la compilazione dei progetti, 
+# con Oracle, Java e Maven. 
+# 
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+    # Configurazioni comuni.
+
+    # Ubuntu 16.04 LTS 64 bit VirtualBox (Bento)
+    config.vm.box = "bento/ubuntu-16.04"
+    # config.vm.box_url = "https://app.vagrantup.com/bento/boxes/ubuntu-16.04"
+
+    # folder per le risorse condivise per gli ambienti Asw (/home/asw/_shared/resources e /home/asw/_shared/scripts) 
+    config.vm.synced_folder "../_shared/", "/home/asw/_shared", :mount_options => ["dmode=777", "fmode=777"]
+
+    #
+    # Configurazione del nodo "dev", che prevede: 
+    # - Oracle Java SDK 8 
+    #
+    config.vm.define "dev" do |node|
+        node.vm.hostname = "dev"    
+        
+        node.vm.provider "virtualbox" do |v| 
+			v.memory = 1536 
+			v.cpus = 1
+        end 
+
+        node.vm.network "forwarded_port", guest: 22, host: 2222, id: 'ssh', auto_correct: true 
+        node.ssh.forward_agent = true
+
+        config.vm.network :private_network, ip: "192.168.68.8"
+        config.vm.network :forwarded_port, guest: 8080, host: 4567
+
+        # provisioning con bash 
+        node.vm.provision :shell, :inline => 'apt-get update'
+        node.vm.provision :shell, path: "../_shared/scripts/setup-java.sh"
+        node.vm.provision :shell, path: "../_shared/scripts/setup-maven.sh"
+        node.vm.provision :shell, path: "../_shared/scripts/setup-wildfly.sh"
+        node.vm.provision :shell, path: "../_shared/scripts/service/start-wildfly-service.sh"
+
+        node.vm.provision "up", type: "shell", run: "always", inline: 'bash /vagrant/provision_up.sh &' 
+		
+        node.vm.provision :shell, 
+            inline: "echo  'configurazione nodo developer completata'"
+
+    end
+
+end

@@ -1,0 +1,10 @@
+[Unit]
+Description=Wildfly Application Server
+
+[Service]
+Type=forking
+ExecStart=/home/asw/_shared/scripts/start-wildfly.sh
+TimeoutSec=infinity
+
+[Install]
+WantedBy=multi-user.target
