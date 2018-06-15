@@ -11,11 +11,12 @@ function deployWars {
 }
 
 #generazione del war SpringBootBasic.war
-cd /home/asw/_shared/deploy/SpringBootBasic
-mvn clean package
+#cd /home/asw/_shared/deploy/SpringBootBasic
+#mvn clean package
 
 sudo cp ${ASW_DEPLOY_FOLDER}/SpringBootBasic/target/SpringBootBasic.war /usr/local/wildfly-11.0.0.Final/standalone/
 
-sudo cp ${ASW_DEPLOY_FOLDER}/hello.war /usr/local/wildfly-11.0.0.Final/standalone/
+sudo cp ${ASW_DEPLOY_FOLDER}/hello-ejb-impl.jar /usr/local/wildfly-11.0.0.Final/standalone/
+sudo cp ${ASW_DEPLOY_FOLDER}/hello-ejb-interface.jar /usr/local/wildfly-11.0.0.Final/standalone/
 
 deployWars

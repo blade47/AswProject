@@ -2,7 +2,7 @@
 
 source "/home/asw/_shared/scripts/common.sh"
 #tutorial
-WILDFLY_VERSION=11.0.0.Final
+WILDFLY_VERSION=13.0.0.Final
 WILDFLY_FILENAME=wildfly-$WILDFLY_VERSION
 WILDFLY_ARCHIVE=$WILDFLY_FILENAME.tar.gz
 GET_WILDFLY_URL=http://download.jboss.org/wildfly/$WILDFLY_VERSION/$WILDFLY_ARCHIVE
@@ -30,6 +30,7 @@ function setupWildfly {
 	echo "setting up wildfly"
 	if downloadExists $WILDFLY_ARCHIVE; then
 		ln -s $WILDFLY_PATH /usr/local/wildfly-${WILDFLY_VERSION}
+		sudo sh $WILDFLY_PATH/bin/add-user.sh -a -u ejbuser -p password1!
 	else
 		echo "setup didn't work"
 	fi

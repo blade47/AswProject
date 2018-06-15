@@ -20,8 +20,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Configurazione del nodo "dev", che prevede: 
     # - Oracle Java SDK 8 
     #
-    config.vm.define "dev" do |node|
-        node.vm.hostname = "dev"    
+    config.vm.define "server" do |node|
+        node.vm.hostname = "server"    
         
         node.vm.provider "virtualbox" do |v| 
 			v.memory = 1536 
@@ -31,20 +31,59 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         node.vm.network "forwarded_port", guest: 22, host: 2222, id: 'ssh', auto_correct: true 
         node.ssh.forward_agent = true
 
-        config.vm.network :private_network, ip: "192.168.68.8"
-        config.vm.network :forwarded_port, guest: 8080, host: 4567
+        node.vm.network :private_network, ip: "10.11.1.151", virtualbox__intnet: true
+
+        node.vm.network "forwarded_port", guest: 8080, host: 8088, id: 'http', auto_correct: true
 
         # provisioning con bash 
         node.vm.provision :shell, :inline => 'apt-get update'
+        node.vm.provision :shell, :inline => 'apt-get install -y maven'
+        
         node.vm.provision :shell, path: "../_shared/scripts/setup-java.sh"
-        node.vm.provision :shell, path: "../_shared/scripts/setup-maven.sh"
+        #node.vm.provision :shell, path: "../_shared/scripts/setup-gradle.sh"
         node.vm.provision :shell, path: "../_shared/scripts/setup-wildfly.sh"
         node.vm.provision :shell, path: "../_shared/scripts/service/start-wildfly-service.sh"
+
+        node.vm.provision :shell, :inline => "echo '10.11.1.151 server' >> /etc/hosts"
+        node.vm.provision :shell, :inline => "echo '10.11.1.251 client' >> /etc/hosts"
 
         node.vm.provision "up", type: "shell", run: "always", inline: 'bash /vagrant/provision_up.sh &' 
 		
         node.vm.provision :shell, 
-            inline: "echo  'configurazione nodo developer completata'"
+            inline: "echo  'configurazione nodo server completata'"
+
+    end
+
+    #
+    # Configurazione del nodo "dev", che prevede: 
+    # - Oracle Java SDK 8 
+    #
+    config.vm.define "client" do |node|
+        node.vm.hostname = "client"    
+        
+        node.vm.provider "virtualbox" do |v| 
+			v.memory = 1536 
+			v.cpus = 1
+        end 
+
+        node.vm.network "forwarded_port", guest: 22, host: 2222, id: 'ssh', auto_correct: true 
+        node.ssh.forward_agent = true
+
+        node.vm.network :private_network, ip: "10.11.1.251", virtualbox__intnet: true
+
+        # provisioning con bash 
+        node.vm.provision :shell, :inline => 'apt-get update'
+        node.vm.provision :shell, :inline => 'apt-get install -y maven'
+
+        node.vm.provision :shell, path: "../_shared/scripts/setup-java.sh"
+
+        node.vm.provision :shell, :inline => "echo '10.11.1.151 server' >> /etc/hosts"
+        node.vm.provision :shell, :inline => "echo '10.11.1.251 client' >> /etc/hosts"
+
+        node.vm.provision "up", type: "shell", run: "always", inline: 'bash /vagrant/provision_up.sh &' 
+		
+        node.vm.provision :shell, 
+            inline: "echo  'configurazione nodo client completata'"
 
     end
 
