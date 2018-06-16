@@ -1,0 +1,6 @@
+it/uniroma3/server/SessionCounter.class
+it/uniroma3/server/AccountEJB.class
+it/uniroma3/server/Account.class
+it/uniroma3/server/Calculator.class
+it/uniroma3/server/CalculatorEJB.class
+it/uniroma3/server/SessionCounterEJB.class
