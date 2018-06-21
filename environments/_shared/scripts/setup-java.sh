@@ -44,7 +44,6 @@ function setupJava {
 
 function setupEnvVars {
 	echo "creating java environment variables"
-	
 	JAVA_HOME=/usr/local/jdk1.${JAVA_VERSION}.0_${JAVA_MINOR_VERSION}/
 	sudo update-alternatives --install /usr/bin/java java ${JAVA_HOME%*/}/bin/java 20000
 	sudo update-alternatives --install /usr/bin/javac javac ${JAVA_HOME%*/}/bin/javac 20000
