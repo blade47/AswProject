@@ -7,7 +7,7 @@ WILDFLY_VERSION=13.0.0.Final
 function deployWars {
     for proj_war in /usr/local/wildfly-${WILDFLY_VERSION}/standalone/*.war; do
         echo "deploying $proj_war"
-        /usr/local/wildfly-11.0.0.Final/bin/jboss-cli.sh -c "deploy $proj_war"
+        /usr/local/wildfly-${WILDFLY_VERSION}/bin/jboss-cli.sh -c "deploy $proj_war"
     done
 }
 
@@ -18,6 +18,6 @@ function deployWars {
 #		mvn clean package
 #
 #	2. Copia del .war in standalone
-#		sudo cp ${ASW_DEPLOY_FOLDER}/SpringBootBasic/target/SpringBootBasic.war /usr/local/wildfly-11.0.0.Final/standalone/
+#		sudo cp ${ASW_DEPLOY_FOLDER}/SpringBootBasic/target/SpringBootBasic.war /usr/local/wildfly-${WILDFLY_VERSION}/standalone/
 
 deployWars
