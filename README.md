@@ -70,8 +70,8 @@ Nella macchina virtuale 'Server' viene automaticamente lanciata un'istanza di Wi
 *1. Accedere al nodo 'Server':*
 <pre></code> vagrant ssh server </pre></code>
 
-*2. Andare nella cartella contenente gli script:*
-<pre><code> cd /home/asw/_shared/script </code></pre>
+*2. Andare nella cartella contenente il progetto:*
+<pre><code> cd /home/asw/_shared/deploy </code></pre>
 
 All'interno vi si trova un progetto di esempio denominato 'SpringBootBasic'
 
@@ -82,10 +82,10 @@ All'interno vi si trova un progetto di esempio denominato 'SpringBootBasic'
 <pre><code> mvn clean package </pre></code>
 
 *5. Spostare il file SpringBootBasic.war nella cartella 'standalone' di Wildfly:*
-<pre><code> sudo cp /SpringBootBasic/target/SpringBootBasic.war /usr/local/wildfly-13.0.0.Final/standalone/ </pre></code>
+<pre><code> sudo cp target/SpringBootBasic.war /usr/local/wildfly-13.0.0.Final/standalone/ </pre></code>
 
 *6. Andare nella cartella contenente gli script:*
-<pre><code> cd /home/asw/_shared/script </code></pre>
+<pre><code> cd /home/asw/_shared/scripts </code></pre>
 
 *7. Eseguire lo script 'deploy-project.sh':*
 <pre><code> sudo sh deploy-project.sh </pre></code>
@@ -127,8 +127,8 @@ http://localhost:8081/hello-world/hello
 
 
 ## Configurazione SERVER
-*1. Posizionarsi nella cartella HOME / ASW / _SHARED / DEPLOY / SERVER:*
-    <pre><code> cd /home/asw/_shared/deploy/server </pre></code>
+*1. Posizionarsi nella cartella HOME / ASW / _SHARED / DEPLOY / ASWPROJECTV3 / SERVER:*
+    <pre><code> cd /home/asw/_shared/deploy/ASWProjectV3/server </pre></code>
 
 *2. Eseguire il comando:*
     <pre><code>sudo mvn clean install</code></pre>
@@ -137,14 +137,14 @@ http://localhost:8081/hello-world/hello
     <pre><code>sudo mvn wildfly:deploy</code></pre>
 
 ## Configurazione CLIENT
-*1. Posizionarsi nella cartella HOME / ASW / _SHARED / DEPLOY  / CLIENT / SERVERINTERFACE :*
-    <pre><code> cd /home/asw/_shared/deploy/client/serverinterface/ </pre></code>
+*1. Posizionarsi nella cartella HOME / ASW / _SHARED / DEPLOY  / ASWPROJECTV3 / CLIENT / SERVERINTERFACE :*
+    <pre><code> cd /home/asw/_shared/deploy/ASWProjectV3/client/serverinterface/ </pre></code>
 
 *2. Eseguire il comando:*
     <pre><code>sudo mvn clean install</code></pre>
     
-*3. Finita l'installazione posizionarsi nella cartella HOME / ASW / _SHARED / DEPLOY / CLIENT / CLIENT:* 
-    <pre><code> cd /home/asw/_shared/deploy/client/client/ </pre></code>
+*3. Finita l'installazione posizionarsi nella cartella HOME / ASW / _SHARED / DEPLOY / ASWPROJECTV3 / CLIENT / CLIENT:* 
+    <pre><code> cd /home/asw/_shared/deploy/AswProjectV3/client/client/ </pre></code>
     
 *4. Eseguire il comando:*
     <pre><code>sudo mvn clean install</code></pre>
